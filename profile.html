@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Header Biru -->
+    <div class="header-box">
+        <h3 class="profile-text">PROFILE</h3>
+    </div>
+
+    <!-- Isi Data Diri -->
+    <div class="content-box">
+        <div class="profile-grid">
+            <div>
+                <p><b>Nama :</b> {{ data.nama }}</p>
+                <p><b>E-mail :</b> {{ data.email }}</p>
+                <p><b>Tanggal Mulai Magang :</b> {{ data.tgl_mulai }}</p>
+                <p><b>Surat Izin Magang :</b>
+                    {% if data.surat_izin %}
+                        <a href="{{ url_for('uploaded_file', filename=data.surat_izin) }}" target="_blank">
+                            📄 {{ data.surat_izin }}
+                        </a>
+                    {% else %}
+                        <span style="color:#888;">Belum diunggah</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div>
+                <p><b>Universitas :</b> {{ data.universitas }}</p>
+                <p><b>No. Telp :</b> {{ data.no_telp }}</p>
+                <p><b>Tanggal Akhir Magang :</b> {{ data.tgl_selesai }}</p>
+                <p><b>Proposal Magang :</b>
+                    {% if data.proposal %}
+                        <a href="{{ url_for('uploaded_file', filename=data.proposal) }}" target="_blank">
+                            📄 {{ data.proposal }}
+                        </a>
+                    {% else %}
+                        <span style="color:#888;">Belum diunggah</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar 
+                {% if data.status == 'diproses' %}step-1{% elif data.status == 'sedang didisposisi' %}step-2{% elif data.status == 'diterima' %}step-3{% endif %}">
+                <div class="step {% if data.status in ['diproses','sedang didisposisi','diterima'] %}active{% endif %}">Diproses</div>
+                <div class="step {% if data.status in ['sedang didisposisi','diterima'] %}active{% endif %}">Didisposisi</div>
+                <div class="step {% if data.status == 'diterima' %}active{% endif %}">Diterima</div>
+            </div>
+        </div>
+
+        <!-- Tombol Unduh Surat Balasan -->
+        <div class="download-btn">
+                {% if data.surat_balasan %}
+                    <a href="{{ url_for('download_surat', filename=data.surat_balasan) }}" class="btn">Unduh Surat Balasan</a>
+                {% else %}
+                    <button class="btn" disabled>Belum Ada Surat Balasan</button>
+                {% endif %}
+            </div>
+        </div>
+</div>
+
+<style>
+/* Layout Profile */
+.profile-container {
+    width: 80%;
+    margin: 30px auto;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.header-box {
+    background-color: #27528b;
+    padding: 25px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.profile-text {
+    text-align: center;
+    margin: 0;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+}
+.content-box {
+    background-color: white;
+    padding: 30px;
+    border: 2px solid #27528b;
+    border-top: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+.profile-grid p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin-top: 40px;
+}
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 22px; /* sejajar bulatan */
+    left: 12%;
+    width: 76%;
+    height: 4px;
+    background: #ccc;
+    z-index: 0;
+}
+/* progress biru dinamis */
+.progress-bar.step-1::after {
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 12%;
+    width: 0%;
+    height: 4px;
+    background: #27528b;
+}
+.progress-bar.step-2::after {
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 12%;
+    width: 38%;
+    height: 4px;
+    background: #27528b;
+}
+.progress-bar.step-3::after {
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 12%;
+    width: 76%;
+    height: 4px;
+    background: #27528b;
+}
+
+.step {
+    position: relative;
+    text-align: center;
+    width: 33.3%;
+    font-size: 14px;
+    z-index: 1;
+    color: #666;
+}
+.step::before {
+    content: "";
+    display: block;
+    margin: 0 auto 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #ccc;
+}
+.step.active {
+    font-weight: bold;
+    color: #27528b;
+}
+.step.active::before {
+    background: #27528b;
+}
+
+/* Tombol */
+.download-btn {
+    text-align: center;
+    margin-top: 30px;
+}
+.btn {
+    background: #27528b;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+}
+.btn:hover {
+    background: #3B82F6;
+}
+.btn[disabled] {
+    background: #bbb;
+    cursor: not-allowed;
+}
+</style>
+{% endblock %}
