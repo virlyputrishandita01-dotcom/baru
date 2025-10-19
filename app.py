@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-import requests
 import os
 import random, string
 from io import BytesIO
@@ -242,11 +241,11 @@ def formulir():
     if request.method == 'POST':
         nama = request.form.get('nama')
         email = request.form.get('email')
-        hp = request.form.get('no_telp')
+        hp = request.form.get('hp')
         tgl_mulai = request.form.get('tgl_mulai')
-        tgl_akhir = request.form.get('tgl_selesai')
+        tgl_akhir = request.form.get('tgl_akhir')
         universitas = request.form.get('universitas')
-        surat = request.files.get('surat_izin')
+        surat = request.files.get('surat')
         proposal = request.files.get('proposal')
 
         surat_filename = None
@@ -262,7 +261,7 @@ def formulir():
 
         cursor = mysql.connection.cursor()
         sql = """INSERT INTO pendaftaran
-         (user_id, nama, email, no_telp, tgl_mulai, tgl_selesai, universitas, surat_izin, proposal)
+         (user_id, nama, email, hp, tgl_mulai, tgl_akhir, universitas, surat, proposal)
          VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         cursor.execute(sql, (
             int(session['id']), nama, email, hp, tgl_mulai, tgl_akhir,

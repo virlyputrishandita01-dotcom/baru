@@ -23,16 +23,9 @@
         <label>Password:</label>
         <input type="password" name="password" required>
 
-        <!-- CAPTCHA -->
-        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-
         <button type="submit">Daftar</button>
     </form>
 
     <p>Sudah punya akun? <a href="{{ url_for('login') }}">Login disini</a></p>
 </section>
-
-<!-- Script Google reCAPTCHA -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
 {% endblock %}

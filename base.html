@@ -9,11 +9,8 @@
 <body>
     <!-- Navbar -->
     <header class="navbar">
-        <div class="logo">E-PORTAL MAGANG
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-        </div>
-            
-        <nav class="nav-links">
+        <div class="logo">E-PORTAL MAGANG</div>
+        <nav>
             <a href="{{ url_for('home') }}">Beranda</a>
             <a href="{{ url_for('about') }}">Tentang Kami</a>
             <a href="{{ url_for('contact') }}">Kontak</a>
@@ -29,12 +26,5 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-
-    <script>
-        function toggleMenu() {
-            const nav = document.querySelector('.nav-links');
-            nav.classList.toggle('active');
-        }
-    </script>
 </body>
 </html>
